@@ -1,10 +1,11 @@
+import os
 import pygame
 
 class Sound:
-
-    def __init__(self, path):
-        self.path = path
-        self.sound = pygame.mixer.Sound(path)
+    def __init__(self, relative_path):
+        base_dir = os.path.dirname(os.path.dirname(__file__))  # AI-Chess/
+        full_path = os.path.join(base_dir, relative_path)
+        self.sound = pygame.mixer.Sound(full_path)
 
     def play(self):
-        pygame.mixer.Sound.play(self.sound)
+        self.sound.play()

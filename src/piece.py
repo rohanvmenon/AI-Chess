@@ -14,8 +14,13 @@ class Piece:
         self.texture_rect = texture_rect
 
     def set_texture(self, size=80):
+        import os
+        base_dir = os.path.dirname(os.path.dirname(__file__))  # AI-Chess/
         self.texture = os.path.join(
-            f'assets/images/imgs-{size}px/{self.color}_{self.name}.png')
+            base_dir,
+            'assets', 'images', f'imgs-{size}px',
+            f'{self.color}_{self.name}.png'
+        )
 
     def add_move(self, move):
         self.moves.append(move)

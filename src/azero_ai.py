@@ -71,20 +71,20 @@ class MCTS:
 
 class DummyNet:
     def evaluate(self, board_wrapper):
-        board = board_wrapper.board
-        piece_values = {'pawn': 1, 'knight': 3, 'bishop': 3.5, 'rook': 5, 'queen': 9, 'king': 1000}
-        value = 0
-        for row in board.squares:
-            for square in row:
-                if square.has_piece():
-                    piece = square.piece
-                    piece_value = piece_values[piece.name]
-                    # Add positional value (example: central squares are more valuable)
-                    positional_bonus = 0
-                    if piece.name == 'pawn':
-                        positional_bonus = 0.1 * (3.5 - abs(3.5 - square.row))  # Encourage pawns to advance
-                    value += (piece_value + positional_bonus) if piece.color == 'white' else -(piece_value + positional_bonus)
-        return value
+        try:
+            fen = board_wrapper.board_to_fen()
+            board = chess.Board(fen)
+            info = self.engine.analyse(
+                board,
+                chess.engine.Limit(depth=self.depth),
+                timeout=0.2
+            )
+            score = info["score"].white().score(mate_score=10000)
+            return score if board_wrapper.color == 'white' else -score
+        except Exception as e:
+            print("Stockfish error:", e)
+            return 0
+
     
 import chess
 import chess.engine

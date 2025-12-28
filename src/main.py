@@ -33,7 +33,7 @@ class Main:
         print("AI is thinking...")
         time.sleep(0.5)  # optional delay for realism
         wrapped_board = MCTSBoardWrapper(self.game.board, self.ai_color)
-        best_move = self.mcts.run(wrapped_board, n_simulations=100)
+        best_move = self.mcts.run(wrapped_board, n_simulations=25)
         if best_move is None:
             print("AI has no legal moves. Game over or stalemate.")
             return
